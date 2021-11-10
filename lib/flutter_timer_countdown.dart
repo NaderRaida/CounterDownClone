@@ -110,7 +110,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
     countdownMinutes = _durationToStringMinutes(difference);
     countdownSeconds = _durationToStringSeconds(difference);
     if (widget.callBack != null) {
-      widget.callBack!(countdownDays,countdownHours,countdownMinutes);
+      widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
     }
     if (difference == Duration.zero) {
       if (widget.onEnd != null) {
@@ -125,7 +125,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
           countdownMinutes = _durationToStringMinutes(difference);
           countdownSeconds = _durationToStringSeconds(difference);
           if (widget.callBack != null) {
-            widget.callBack!(countdownDays, countdownHours, countdownMinutes);
+            widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
           }
         });
         if (difference <= Duration.zero) {
