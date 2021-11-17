@@ -150,7 +150,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       countdownHours = widget.startTime!.hour.toString();
       countdownMinutes = widget.startTime!.minute.toString();
       countdownSeconds = widget.startTime!.second.toString();
-      for(int i = 0 ;i<2;i=1){
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
         int day = int.parse(countdownDays);
         int hour = int.parse(countdownHours);
         int minute = int.parse(countdownMinutes);
@@ -168,7 +168,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
           }
         });
-      }
+      });
     }
   }
 
