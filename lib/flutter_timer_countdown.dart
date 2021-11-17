@@ -129,15 +129,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
           widget.reverseTheCounter!("up");
           widget.upOrDown = "up";
           widget.startTime = DateTime(DateTime.now().year).add(Duration(
-            days: 0,
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
+            days: int.parse(countdownDays),
+            hours: int.parse(countdownHours),
+            minutes: int.parse(countdownMinutes),
+            seconds: int.parse(countdownSeconds),
           ));
         });
-        if (widget.onEnd != null) {
+        /*if (widget.onEnd != null) {
           widget.onEnd!();
-        }
+        }*/
       } else {
         timer = Timer.periodic(Duration(seconds: 1), (timer) {
           difference = widget.endTime.difference(DateTime.now());
@@ -156,15 +156,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
               widget.reverseTheCounter!("up");
               widget.upOrDown = "up";
               widget.startTime = DateTime(DateTime.now().year).add(Duration(
-                days: 0,
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
+                days: int.parse(countdownDays),
+                hours: int.parse(countdownHours),
+                minutes: int.parse(countdownMinutes),
+                seconds: int.parse(countdownSeconds),
               ));
             });
-            if (widget.onEnd != null) {
+            /*if (widget.onEnd != null) {
               widget.onEnd!();
-            }
+            }*/
           }
         });
       }
