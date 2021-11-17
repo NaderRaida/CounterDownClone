@@ -397,6 +397,13 @@ class _TimerCountdownState extends State<TimerCountdown> {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              "-",
+              style: widget.timeTextStyle,
+            ),
+            SizedBox(
+              width: 4,
+            ),
             _days(context),
             _colon(),
             _hours(context),
