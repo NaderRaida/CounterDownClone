@@ -55,8 +55,14 @@ class TimerCountdown extends StatefulWidget {
 
   final Function? callBack;
 
+  final String upOrDown;
+
+  final DateTime? startTime;
+
   TimerCountdown({
+    required this.upOrDown,
     required this.endTime,
+    this.startTime,
     this.format = CountDownTimerFormat.daysHoursMinutesSeconds,
     this.enableDescriptions = true,
     this.onEnd,
@@ -100,41 +106,67 @@ class _TimerCountdownState extends State<TimerCountdown> {
   /// Then create a periodic `Timer` which updates all fields every second depending on the time difference which is getting smaller.
   /// When this difference reached `Duration.zero` the `Timer` is stopped and the [onEnd] callback is invoked.
   void _startTimer() {
-    if (widget.endTime.isBefore(DateTime.now())) {
-      difference = Duration.zero;
-    } else {
-      difference = widget.endTime.difference(DateTime.now());
-    }
-    countdownDays = _durationToStringDays(difference);
-    countdownHours = _durationToStringHours(difference);
-    countdownMinutes = _durationToStringMinutes(difference);
-    countdownSeconds = _durationToStringSeconds(difference);
-    if (widget.callBack != null) {
-      widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
-    }
-    if (difference == Duration.zero) {
-      if (widget.onEnd != null) {
-        widget.onEnd!();
-      }
-    } else {
-      timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    if(widget.upOrDown == "down"){
+      if (widget.endTime.isBefore(DateTime.now())) {
+        difference = Duration.zero;
+      } else {
         difference = widget.endTime.difference(DateTime.now());
+      }
+      countdownDays = _durationToStringDays(difference);
+      countdownHours = _durationToStringHours(difference);
+      countdownMinutes = _durationToStringMinutes(difference);
+      countdownSeconds = _durationToStringSeconds(difference);
+      if (widget.callBack != null) {
+        widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
+      }
+      if (difference == Duration.zero) {
+        if (widget.onEnd != null) {
+          widget.onEnd!();
+        }
+      } else {
+        timer = Timer.periodic(Duration(seconds: 1), (timer) {
+          difference = widget.endTime.difference(DateTime.now());
+          setState(() {
+            countdownDays = _durationToStringDays(difference);
+            countdownHours = _durationToStringHours(difference);
+            countdownMinutes = _durationToStringMinutes(difference);
+            countdownSeconds = _durationToStringSeconds(difference);
+            if (widget.callBack != null) {
+              widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
+            }
+          });
+          if (difference <= Duration.zero) {
+            timer.cancel();
+            if (widget.onEnd != null) {
+              widget.onEnd!();
+            }
+          }
+        });
+      }
+    }else{
+      countdownDays = widget.startTime!.day.toString();
+      countdownHours = widget.startTime!.hour.toString();
+      countdownMinutes = widget.startTime!.minute.toString();
+      countdownSeconds = widget.startTime!.second.toString();
+      for(int i = 0 ;i<2;i=1){
+        int day = int.parse(countdownDays);
+        int hour = int.parse(countdownHours);
+        int minute = int.parse(countdownMinutes);
+        int second = int.parse(countdownSeconds);
         setState(() {
-          countdownDays = _durationToStringDays(difference);
-          countdownHours = _durationToStringHours(difference);
-          countdownMinutes = _durationToStringMinutes(difference);
-          countdownSeconds = _durationToStringSeconds(difference);
+          countdownSeconds = _twoDigits(second++ == 60 ? 0 : second++,"seconds");
+          countdownMinutes = _twoDigits((int.parse(countdownSeconds) == 60 )?
+          (minute++ == 60 ? 0 : minute++) : minute,"minutes");
+          countdownHours = _twoDigits((int.parse(countdownMinutes) == 60
+              && int.parse(countdownSeconds) == 60 )? (hour++ == 60 ? 0 : hour++) : hour,"hours");
+          countdownDays = _twoDigits((int.parse(countdownHours) == 24
+              && int.parse(countdownMinutes) == 60
+              && int.parse(countdownSeconds) == 60 )? day++ : day,"days");
           if (widget.callBack != null) {
             widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
           }
         });
-        if (difference <= Duration.zero) {
-          timer.cancel();
-          if (widget.onEnd != null) {
-            widget.onEnd!();
-          }
-        }
-      });
+      }
     }
   }
 
@@ -274,28 +306,35 @@ class _TimerCountdownState extends State<TimerCountdown> {
   String _twoDigits(int n, String unitType) {
     switch (unitType) {
       case "minutes":
-        if (widget.format == CountDownTimerFormat.daysHoursMinutes ||
-            widget.format == CountDownTimerFormat.hoursMinutes ||
-            widget.format == CountDownTimerFormat.minutesOnly) {
-          if (difference > Duration.zero) {
-            n++;
+        if(widget.upOrDown == "down"){
+          if (widget.format == CountDownTimerFormat.daysHoursMinutes ||
+              widget.format == CountDownTimerFormat.hoursMinutes ||
+              widget.format == CountDownTimerFormat.minutesOnly) {
+            if (difference > Duration.zero) {
+              n++;
+            }
           }
         }
+
         if (n >= 10) return "$n";
         return "0$n";
       case "hours":
-        if (widget.format == CountDownTimerFormat.daysHours ||
-            widget.format == CountDownTimerFormat.hoursOnly) {
-          if (difference > Duration.zero) {
-            n++;
+        if(widget.upOrDown == "down"){
+          if (widget.format == CountDownTimerFormat.daysHours ||
+              widget.format == CountDownTimerFormat.hoursOnly) {
+            if (difference > Duration.zero) {
+              n++;
+            }
           }
         }
         if (n >= 10) return "$n";
         return "0$n";
       case "days":
-        if (widget.format == CountDownTimerFormat.daysOnly) {
-          if (difference > Duration.zero) {
-            n++;
+        if(widget.upOrDown == "down"){
+          if (widget.format == CountDownTimerFormat.daysOnly) {
+            if (difference > Duration.zero) {
+              n++;
+            }
           }
         }
         if (n >= 10) return "$n";
