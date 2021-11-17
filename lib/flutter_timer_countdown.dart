@@ -55,9 +55,11 @@ class TimerCountdown extends StatefulWidget {
 
   final Function? callBack;
 
-  final String upOrDown;
+  final Function? reverseTheCounter;
 
-  final DateTime? startTime;
+  String upOrDown;
+
+  DateTime? startTime;
 
   TimerCountdown({
     required this.upOrDown,
@@ -75,6 +77,7 @@ class TimerCountdown extends StatefulWidget {
     this.secondsDescription = "Seconds",
     this.spacerWidth = 10,
     required this.callBack,
+    required this.reverseTheCounter,
   });
 
   @override
@@ -122,6 +125,16 @@ class _TimerCountdownState extends State<TimerCountdown> {
         widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
       }
       if (difference == Duration.zero) {
+        setState(() {
+          widget.reverseTheCounter!("up");
+          widget.upOrDown = "up";
+          widget.startTime = DateTime(DateTime.now().year).add(Duration(
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+          ));
+        });
         if (widget.onEnd != null) {
           widget.onEnd!();
         }
@@ -138,7 +151,17 @@ class _TimerCountdownState extends State<TimerCountdown> {
             }
           });
           if (difference <= Duration.zero) {
-            timer.cancel();
+            // timer.cancel();
+            setState(() {
+              widget.reverseTheCounter!("up");
+              widget.upOrDown = "up";
+              widget.startTime = DateTime(DateTime.now().year).add(Duration(
+                days: 0,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+              ));
+            });
             if (widget.onEnd != null) {
               widget.onEnd!();
             }
