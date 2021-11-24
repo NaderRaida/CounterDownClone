@@ -279,7 +279,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       children: [
         Text(
           (widget.upOrDown == "down") ? countdownDays
-              : _twoDigits((int.parse(countdownDays) - 1),"days"),
+              : _twoDigits(((int.parse(countdownDays) - 1)),"days"),
           style: widget.timeTextStyle,
         ),
         if (widget.enableDescriptions)
@@ -401,6 +401,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             }
           }
         }
+        print("days==>> ${n.toString()}");
         if (n >= 10) return "$n";
         return "0$n";
       default:
