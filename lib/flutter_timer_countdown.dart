@@ -156,7 +156,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
           });
           if (difference <= Duration.zero) {
             print("here enter here enter here 4");
-            // timer.cancel();
+            this.timer.cancel();
             setState(() {
               widget.reverseTheCounter!("up");
               widget.upOrDown = "up";
@@ -167,7 +167,9 @@ class _TimerCountdownState extends State<TimerCountdown> {
                 seconds: int.parse(countdownSeconds),
               ));
             });
-            _startTimer();
+            setState(() {
+              upUp();
+            });
             /*if (widget.onEnd != null) {
               widget.onEnd!();
             }*/
@@ -207,6 +209,28 @@ class _TimerCountdownState extends State<TimerCountdown> {
         });
       });
     }
+  }
+
+  void upUp(){
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      int day = int.parse(countdownDays);
+      int hour = int.parse(countdownHours);
+      int minute = int.parse(countdownMinutes);
+      int second = int.parse(countdownSeconds);
+      setState(() {
+        countdownSeconds = _twoDigits(second++ == 60 ? 0 : second++,"seconds");
+        countdownMinutes = _twoDigits((/*int.parse(countdownSeconds)*/second++ == 60 )?
+        (minute++ == 60 ? 0 : minute++) : minute,"minutes");
+        countdownHours = _twoDigits((/*int.parse(countdownMinutes)*/minute++ == 60
+            && /*int.parse(countdownSeconds)*/second++ == 60 )? (hour++ == 60 ? 0 : hour++) : hour,"hours");
+        countdownDays = _twoDigits((/*int.parse(countdownHours)*/hour++ == 24
+            && /*int.parse(countdownMinutes)*/minute++ == 60
+            && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
+        if (widget.callBack != null) {
+          widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
+        }
+      });
+    });
   }
 
   @override
