@@ -158,7 +158,9 @@ class _TimerCountdownState extends State<TimerCountdown> {
             // print("here enter here enter here 4");
             this.timer.cancel();
             setState(() {
+              print("day=>>// $countdownDays}");
               countdownDays = _twoDigits((int.parse(countdownDays) -1), "days");
+              print("day=>>1// $countdownDays}");
               widget.reverseTheCounter!("up");
               widget.upOrDown = "up";
               widget.startTime = DateTime(DateTime.now().year).add(Duration(
