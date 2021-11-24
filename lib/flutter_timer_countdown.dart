@@ -167,6 +167,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
                 seconds: int.parse(countdownSeconds),
               ));
             });
+            _startTimer();
             /*if (widget.onEnd != null) {
               widget.onEnd!();
             }*/
