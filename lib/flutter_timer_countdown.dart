@@ -159,10 +159,14 @@ class _TimerCountdownState extends State<TimerCountdown> {
             this.timer.cancel();
             setState(() {
               // print("day=>>// $countdownDays}");
-              countdownDays = _twoDigits((int.parse(countdownDays) -1), "days");
+              // countdownDays = _twoDigits((int.parse(countdownDays) -1), "days");
               // print("day=>>1// $countdownDays}");
               widget.reverseTheCounter!("up");
               widget.upOrDown = "up";
+              countdownDays = "00";
+              countdownHours = "00";
+              countdownMinutes = "00";
+              countdownSeconds = "00";
               widget.startTime = DateTime(DateTime.now().year).add(Duration(
                 days: 0,
                 hours: 0,
@@ -216,10 +220,10 @@ class _TimerCountdownState extends State<TimerCountdown> {
 
   void upUp(){
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      int day = 0;
-      int hour = 0;
-      int minute = 0;
-      int second = 0;
+      int day = int.parse(countdownDays);
+      int hour = int.parse(countdownHours);
+      int minute = int.parse(countdownMinutes);
+      int second = int.parse(countdownSeconds);
       setState(() {
         countdownSeconds = _twoDigits(second++ == 60 ? 0 : second++,"seconds");
         countdownMinutes = _twoDigits((/*int.parse(countdownSeconds)*/second++ == 60 )?
