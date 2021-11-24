@@ -111,7 +111,9 @@ class _TimerCountdownState extends State<TimerCountdown> {
   /// Then create a periodic `Timer` which updates all fields every second depending on the time difference which is getting smaller.
   /// When this difference reached `Duration.zero` the `Timer` is stopped and the [onEnd] callback is invoked.
   void _startTimer() {
+    print("here enter here enter here 0");
     if(widget.upOrDown == "down"){
+      print("here enter here enter here 1");
       if (widget.endTime.isBefore(DateTime.now())) {
         difference = Duration.zero;
       } else {
@@ -125,6 +127,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
         widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
       }
       if (difference == Duration.zero) {
+        print("here enter here enter here 2");
         setState(() {
           widget.reverseTheCounter!("up");
           widget.upOrDown = "up";
@@ -139,6 +142,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
           widget.onEnd!();
         }*/
       } else {
+        print("here enter here enter here 3");
         timer = Timer.periodic(Duration(seconds: 1), (timer) {
           difference = widget.endTime.difference(DateTime.now());
           setState(() {
@@ -151,6 +155,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             }
           });
           if (difference <= Duration.zero) {
+            print("here enter here enter here 4");
             // timer.cancel();
             setState(() {
               widget.reverseTheCounter!("up");
@@ -169,6 +174,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
         });
       }
     }else{
+      print("here enter here enter here 5");
       /*countdownDays = widget.startTime!.day.toString();
       countdownHours = widget.startTime!.hour.toString();
       countdownMinutes = widget.startTime!.minute.toString();
