@@ -91,6 +91,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
   late String countdownMinutes;
   late String countdownSeconds;
   late Duration difference;
+  bool minus = true;
 
   @override
   void initState() {
@@ -167,6 +168,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
               countdownHours = "00";
               countdownMinutes = "00";
               countdownSeconds = "00";
+              minus = false;
               widget.startTime = DateTime(DateTime.now().year).add(Duration(
                 days: 0,
                 hours: 0,
@@ -286,7 +288,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       children: [
         Text(
           (widget.upOrDown == "down") ? countdownDays
-              : _twoDigits(((int.parse(countdownDays) - 1)),"days"),
+              : (int.parse(countdownDays) - 1).toString(),
           style: widget.timeTextStyle,
         ),
         if (widget.enableDescriptions)
