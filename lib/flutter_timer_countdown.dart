@@ -247,7 +247,8 @@ class _TimerCountdownState extends State<TimerCountdown> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          countdownDays,
+          (widget.upOrDown == "down") ? countdownDays
+              : ((int.parse(countdownDays) - 1).toString()),
           style: widget.timeTextStyle,
         ),
         if (widget.enableDescriptions)
