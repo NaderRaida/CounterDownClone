@@ -125,7 +125,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       countdownMinutes = _durationToStringMinutes(difference);
       countdownSeconds = _durationToStringSeconds(difference);
       if (widget.callBack != null) {
-        widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds);
+        widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds,widget.upOrDown);
       }
       if (difference == Duration.zero) {
         // print("here enter here enter here 2");
@@ -152,7 +152,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             countdownMinutes = _durationToStringMinutes(difference);
             countdownSeconds = _durationToStringSeconds(difference);
             if (widget.callBack != null) {
-              widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
+              widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
             }
           });
           if (difference <= Duration.zero) {
@@ -213,7 +213,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
               && /*int.parse(countdownMinutes)*/minute++ == 60
               && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
           if (widget.callBack != null) {
-            widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
+            widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
           }
         });
       });
@@ -236,7 +236,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             && /*int.parse(countdownMinutes)*/minute++ == 60
             && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
         if (widget.callBack != null) {
-          widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
+          widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
         }
       });
     });
