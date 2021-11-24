@@ -92,9 +92,11 @@ class _TimerCountdownState extends State<TimerCountdown> {
   late String countdownSeconds;
   late Duration difference;
   bool minus = true;
+  late String upOrDown;
 
   @override
   void initState() {
+    upOrDown = widget.upOrDown;
     _startTimer();
     super.initState();
   }
@@ -113,7 +115,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
   /// When this difference reached `Duration.zero` the `Timer` is stopped and the [onEnd] callback is invoked.
   void _startTimer() {
     // print("here enter here enter here 0");
-    if(widget.upOrDown == "down"){
+    if(/*widget.*/upOrDown == "down"){
       // print("here enter here enter here 1");
       if (widget.endTime.isBefore(DateTime.now())) {
         difference = Duration.zero;
@@ -125,13 +127,13 @@ class _TimerCountdownState extends State<TimerCountdown> {
       countdownMinutes = _durationToStringMinutes(difference);
       countdownSeconds = _durationToStringSeconds(difference);
       if (widget.callBack != null) {
-        widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds,widget.upOrDown);
+        widget.callBack!(countdownDays,countdownHours,countdownMinutes,countdownSeconds,/*widget.*/upOrDown);
       }
       if (difference == Duration.zero) {
         // print("here enter here enter here 2");
         setState(() {
           widget.reverseTheCounter!("up");
-          widget.upOrDown = "up";
+          /*widget.*/upOrDown = "up";
           widget.startTime = DateTime(DateTime.now().year).add(Duration(
             days: int.parse(countdownDays),
             hours: int.parse(countdownHours),
@@ -152,7 +154,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             countdownMinutes = _durationToStringMinutes(difference);
             countdownSeconds = _durationToStringSeconds(difference);
             if (widget.callBack != null) {
-              widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
+              widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,upOrDown);
             }
           });
           if (difference <= Duration.zero) {
@@ -163,7 +165,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
               // countdownDays = _twoDigits((int.parse(countdownDays) -1), "days");
               // print("day=>>1// $countdownDays}");
               widget.reverseTheCounter!("up");
-              widget.upOrDown = "up";
+              upOrDown = "up";
               countdownDays = "00";
               countdownHours = "00";
               countdownMinutes = "00";
@@ -213,7 +215,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
               && /*int.parse(countdownMinutes)*/minute++ == 60
               && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
           if (widget.callBack != null) {
-            widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
+            widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,upOrDown);
           }
         });
       });
@@ -236,7 +238,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
             && /*int.parse(countdownMinutes)*/minute++ == 60
             && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
         if (widget.callBack != null) {
-          widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,widget.upOrDown);
+          widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds,upOrDown);
         }
       });
     });
@@ -287,7 +289,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          (widget.upOrDown == "down") ? countdownDays
+          (upOrDown == "down") ? countdownDays
               : minus ? (int.parse(countdownDays) - 1).toString()
               : (countdownDays.length == 1 ?
           _twoDigits(int.parse(countdownDays), "days") : countdownDays),
@@ -381,7 +383,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
   String _twoDigits(int n, String unitType) {
     switch (unitType) {
       case "minutes":
-        if(widget.upOrDown == "down"){
+        if(upOrDown == "down"){
           if (widget.format == CountDownTimerFormat.daysHoursMinutes ||
               widget.format == CountDownTimerFormat.hoursMinutes ||
               widget.format == CountDownTimerFormat.minutesOnly) {
@@ -394,7 +396,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
         if (n >= 10) return "$n";
         return "0$n";
       case "hours":
-        if(widget.upOrDown == "down"){
+        if(upOrDown == "down"){
           if (widget.format == CountDownTimerFormat.daysHours ||
               widget.format == CountDownTimerFormat.hoursOnly) {
             if (difference > Duration.zero) {
@@ -405,7 +407,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
         if (n >= 10) return "$n";
         return "0$n";
       case "days":
-        if(widget.upOrDown == "down"){
+        if(upOrDown == "down"){
           if (widget.format == CountDownTimerFormat.daysOnly) {
             if (difference > Duration.zero) {
               n++;
@@ -473,7 +475,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if(widget.upOrDown == "up")
+            if(upOrDown == "up")
               Row(
                 children: [
                   Text(
