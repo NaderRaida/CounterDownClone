@@ -169,10 +169,17 @@ class _TimerCountdownState extends State<TimerCountdown> {
         });
       }
     }else{
-      countdownDays = widget.startTime!.day.toString();
+      /*countdownDays = widget.startTime!.day.toString();
       countdownHours = widget.startTime!.hour.toString();
       countdownMinutes = widget.startTime!.minute.toString();
-      countdownSeconds = widget.startTime!.second.toString();
+      countdownSeconds = widget.startTime!.second.toString();*/
+
+      countdownDays = _twoDigits(widget.startTime!.day,"days");
+      countdownHours = _twoDigits(widget.startTime!.hour,"hours");
+      countdownMinutes = _twoDigits(widget.startTime!.minute,"minutes");
+      countdownSeconds = _twoDigits(widget.startTime!.second,"seconds");
+
+
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         int day = int.parse(countdownDays);
         int hour = int.parse(countdownHours);
@@ -180,13 +187,13 @@ class _TimerCountdownState extends State<TimerCountdown> {
         int second = int.parse(countdownSeconds);
         setState(() {
           countdownSeconds = _twoDigits(second++ == 60 ? 0 : second++,"seconds");
-          countdownMinutes = _twoDigits((int.parse(countdownSeconds) == 60 )?
+          countdownMinutes = _twoDigits((/*int.parse(countdownSeconds)*/second++ == 60 )?
           (minute++ == 60 ? 0 : minute++) : minute,"minutes");
-          countdownHours = _twoDigits((int.parse(countdownMinutes) == 60
-              && int.parse(countdownSeconds) == 60 )? (hour++ == 60 ? 0 : hour++) : hour,"hours");
-          countdownDays = _twoDigits((int.parse(countdownHours) == 24
-              && int.parse(countdownMinutes) == 60
-              && int.parse(countdownSeconds) == 60 )? day++ : day,"days");
+          countdownHours = _twoDigits((/*int.parse(countdownMinutes)*/minute++ == 60
+              && /*int.parse(countdownSeconds)*/second++ == 60 )? (hour++ == 60 ? 0 : hour++) : hour,"hours");
+          countdownDays = _twoDigits((/*int.parse(countdownHours)*/hour++ == 24
+              && /*int.parse(countdownMinutes)*/minute++ == 60
+              && /*int.parse(countdownSeconds)*/second++ == 60 )? day++ : day,"days");
           if (widget.callBack != null) {
             widget.callBack!(countdownDays, countdownHours, countdownMinutes,countdownSeconds);
           }
