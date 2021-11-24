@@ -288,7 +288,7 @@ class _TimerCountdownState extends State<TimerCountdown> {
       children: [
         Text(
           (widget.upOrDown == "down") ? countdownDays
-              : (int.parse(countdownDays) - 1).toString(),
+              : minus ? (int.parse(countdownDays) - 1).toString() : countdownDays,
           style: widget.timeTextStyle,
         ),
         if (widget.enableDescriptions)
